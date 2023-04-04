@@ -1,30 +1,30 @@
 package edu.iu.c322.orderservice.repository;
 
 import edu.iu.c322.orderservice.model.Item;
-import edu.iu.c322.orderservice.model.Order;
+import edu.iu.c322.orderservice.model.Orders;
 import edu.iu.c322.orderservice.model.UpdateRequest;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class OrderRepository {
-    List<Order> orders = new ArrayList<Order>();
+public class InMemoryOrderRepository {
+    List<Orders> orders = new ArrayList<Orders>();
     List<UpdateRequest> updateRequests = new ArrayList<UpdateRequest>();
-    public List<Order> findAll(){
+    public List<Orders> findAll(){
         return orders;
     }
-    public List<Order> findAllbyCust(int id){
+    public List<Orders> findAllbyCust(int id){
         return getOrdersByCustomerId(id);
     }
-    public int create(Order order){
+    public int create(Orders order){
         int id = orders.size()+1;
         order.setId(id);
         orders.add(order);
         return id;
     }
     public void update(UpdateRequest updateRequest){
-        Order x = getOrderByID(updateRequest.getOrderId());
+        Orders x = getOrderByID(updateRequest.getOrderId());
         if(x != null){
             List<Item> items = x.getItems();
             if(items.size() > updateRequest.getItemId()-1){
@@ -43,7 +43,7 @@ public class OrderRepository {
     }
 
     public void delete(int id){
-        Order x = getOrderByID(id);
+        Orders x = getOrderByID(id);
         if(x!=null) {
             orders.remove(x);
         }else{
@@ -51,10 +51,10 @@ public class OrderRepository {
         }
     }
 
-    private Order getOrderByID(int id) {
+    private Orders getOrderByID(int id) {
         return orders.stream().filter(x -> x.getId() == id).findAny().orElse(null);
     }
-    private List<Order> getOrdersByCustomerId(int id) {
+    private List<Orders> getOrdersByCustomerId(int id) {
         return orders.stream().filter(x -> x.getCustomerId() == id).toList();
     }
 }

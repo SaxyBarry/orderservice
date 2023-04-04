@@ -1,19 +1,27 @@
 package edu.iu.c322.orderservice.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 import java.util.Objects;
 
-public class Order {
+@Entity
+public class Orders {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private int customerId;
     private double total;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shippingAddress")
     @Valid
     private Address shippingAddress;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Item> items;
     @Valid
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment")
     private Payment payment;
     private String dateOrdered = "";
 
@@ -77,7 +85,7 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
+        Orders order = (Orders) o;
         return id == order.id && customerId == order.customerId && Double.compare(order.total, total) == 0 && shippingAddress.equals(order.shippingAddress) && items.equals(order.items) && payment.equals(order.payment) && dateOrdered.equals(order.dateOrdered);
     }
 

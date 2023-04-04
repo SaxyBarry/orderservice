@@ -1,16 +1,22 @@
 package edu.iu.c322.orderservice.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Objects;
 
+@Entity
 public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @NotEmpty(message = "Address State cannot be empty")
     private String state;
     @NotEmpty(message = "Address City cannot be empty")
     private String city;
 
     private int postalCode;
+
 
     public String getState() {
         return state;

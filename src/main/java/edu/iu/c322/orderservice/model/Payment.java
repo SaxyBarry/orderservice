@@ -1,14 +1,20 @@
 package edu.iu.c322.orderservice.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Objects;
 
+@Entity
 public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String method;
     private String number;
     @Valid
+    @OneToOne(cascade = CascadeType.ALL)
     private Address billingAddress;
 
     public String getMethod() {

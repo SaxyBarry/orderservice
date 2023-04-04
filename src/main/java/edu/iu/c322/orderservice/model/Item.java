@@ -1,7 +1,10 @@
 package edu.iu.c322.orderservice.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
 public class Item {
     private String name;
     private int quantity;
@@ -9,7 +12,17 @@ public class Item {
     private String status = "ordered";
     private String reason = "";
     private String dateModified = "";
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDateModified() {
         return dateModified;
